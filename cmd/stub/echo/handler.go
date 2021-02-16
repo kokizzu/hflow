@@ -4,7 +4,7 @@ import (
 	"comradequinn/hflow/log"
 	"crypto/tls"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -36,7 +36,7 @@ var (
 			err error
 		)
 
-		if b, err = ioutil.ReadAll(r.Body); err != nil {
+		if b, err = io.ReadAll(r.Body); err != nil {
 			rw.WriteHeader(http.StatusInternalServerError)
 			log.Printf(0, "x<< unable to read body of request for [%v]: [%v]", r.URL.String(), err)
 		}

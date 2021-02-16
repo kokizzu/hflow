@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"context"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"strings"
 )
@@ -19,7 +18,7 @@ func CloserToString(r *io.ReadCloser) (string, error) {
 
 // CloserToBytes returns the contents of the r as a []byte and resets r so it can be read again
 func CloserToBytes(r *io.ReadCloser) ([]byte, error) {
-	b, err := ioutil.ReadAll(*r)
+	b, err := io.ReadAll(*r)
 
 	if err != nil {
 		return nil, err
@@ -32,7 +31,7 @@ func CloserToBytes(r *io.ReadCloser) ([]byte, error) {
 
 // BytesToCloser sets b as the contents of the returned io.ReadCloser leaving it ready to be read
 func BytesToCloser(b []byte) io.ReadCloser {
-	return ioutil.NopCloser(bytes.NewReader(b))
+	return io.NopCloser(bytes.NewReader(b))
 }
 
 // Header copies the contents of src to dest

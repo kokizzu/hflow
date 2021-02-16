@@ -4,7 +4,7 @@ import (
 	"bytes"
 	gz "compress/gzip"
 	"fmt"
-	"io/ioutil"
+	"io"
 )
 
 type gzip struct{}
@@ -16,7 +16,7 @@ func (gzip) dec(data []byte) ([]byte, error) {
 		return nil, fmt.Errorf("unable to read compressed data with gzip: [%v]", err)
 	}
 
-	b, err := ioutil.ReadAll(r)
+	b, err := io.ReadAll(r)
 
 	if err != nil {
 		return nil, fmt.Errorf("unable to decompress data with gzip: [%v]", err)

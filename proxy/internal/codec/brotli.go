@@ -3,7 +3,7 @@ package codec
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
 
 	br "github.com/andybalholm/brotli"
 )
@@ -13,7 +13,7 @@ type brotli struct{}
 func (brotli) dec(data []byte) ([]byte, error) {
 	r := br.NewReader(bytes.NewReader(data))
 
-	b, err := ioutil.ReadAll(r)
+	b, err := io.ReadAll(r)
 
 	if err != nil {
 		return nil, fmt.Errorf("unable to decompress data with brotli: [%v]", err)

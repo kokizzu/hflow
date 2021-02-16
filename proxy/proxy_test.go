@@ -4,7 +4,7 @@ import (
 	"comradequinn/hflow/proxy/intercept"
 	"crypto/tls"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -29,7 +29,7 @@ func TestProxy(t *testing.T) {
 		defer proxy.Close()
 
 		stub := newStubSvrFunc(http.HandlerFunc(func(rs http.ResponseWriter, rcvRq *http.Request) {
-			b, _ := ioutil.ReadAll(rcvRq.Body)
+			b, _ := io.ReadAll(rcvRq.Body)
 			rcvMethod, rcvPath, rcvQSV, rcvHdrV, rcvIntHdrV, rcvBdy = rcvRq.Method, rcvRq.URL.Path, rcvRq.URL.Query().Get(rqQSK), rcvRq.Header.Get(rqHdrK), rcvRq.Header.Get(intRqHdrK), string(b)
 
 			rs.Header().Add(rsHdrK, rsHdrV)
@@ -78,7 +78,7 @@ func TestProxy(t *testing.T) {
 		assert("receive request body of", rqBdy, rcvBdy)
 		assert("receive response header value of", rsHdrV, rs.Header.Get(rsHdrK))
 
-		b, err := ioutil.ReadAll(rs.Body)
+		b, err := io.ReadAll(rs.Body)
 		assert("receive response body of", rsBdy, string(b))
 
 		if icpt {

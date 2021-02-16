@@ -1,7 +1,7 @@
 package copy
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http/httptest"
 	"strings"
 	"testing"
@@ -23,7 +23,7 @@ func TestWriter(t *testing.T) {
 
 	var b []byte
 
-	b, err = ioutil.ReadAll(r.Body)
+	b, err = io.ReadAll(r.Body)
 
 	s = string(b)
 
